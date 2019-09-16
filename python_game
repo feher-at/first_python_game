@@ -1,1 +1,14 @@
-
+def draw_labirinth():
+    the_map = [[1,1,1,1,1,1,1,1,1,1,],[1,1,0,0,1,1,1,0,0,1,]]
+    lines =  []
+    
+    for n in the_map:
+        for t in n:
+           lines.append(t)
+        for n in lines:
+            if n == 1:
+                print("XXX",end = "")
+            elif n ==0:
+                print("   ",end="")
+        print()
+        lines = []
