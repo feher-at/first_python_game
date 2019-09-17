@@ -1,5 +1,5 @@
 def draw_labirinth():
-    the_map = [[1,1,1,0,1,1,1,1,1,1],
+    the_map = [[1,1,1,2,1,1,1,1,1,1],
                [1,1,0,0,1,1,1,1,1,1],
                [1,1,0,1,1,1,1,1,1,1],
                [1,1,0,1,1,1,1,1,1,1],
@@ -11,17 +11,15 @@ def draw_labirinth():
                [1,1,1,1,1,0,1,1,1,1]]
     lines =  []
     
-    for n in the_map:
-        for t in n:
-           lines.append(t)
-        for n in lines:
-            if n == 1:
+    for lists in the_map:
+        for k in lists:
+            if k == 2:
+                print("$",end = "")
+            elif k == 1:
                 print("X",end = "")
-            elif n ==0:
+            elif k ==0:
                 print(" ",end="")
         print()
-        lines = []
-        
         
         
 
