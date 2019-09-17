@@ -49,17 +49,41 @@ def draw_labirinth():
                [1,1,1,1,1,0,1,1,1,1],
                [1,1,1,1,1,0,1,1,1,1],
                [1,1,1,1,1,0,1,1,1,1],
-               [1,1,1,1,1,0,1,1,1,1]]
+               [1,1,1,1,1,3,1,1,1,1]]
     while True:
         char = getch()
         for lists in range(len(the_map)):
             for k in range(len(the_map[lists])):
-                if  the_map[lists][k] == 2:
-
+                if  the_map[lists][k] == 2 and (char == "s"):
+                    if the_map[lists+1][k] == 0:
+                        the_map[lists+1][k]=2
+                        the_map[lists][k] = 0
+                    print("$",end = "")
+                elif the_map[lists][k] == 2 and (char == "a"):
+                    if the_map[lists][k-1] == 0:
+                        the_map[lists][k]=0
+                        the_map[lists][k-1]=2
+                    print("$",end = "")
+                elif the_map[lists][k] == 2 and (char == "d"):
+                    if the_map[lists][k+1] == 0:
+                        the_map[lists][k]=0
+                        the_map[lists][k+1]=2
                     print("$",end = "")
                 elif the_map[lists][k] == 1:
                     print("X",end = "")
                 elif the_map[lists][k] ==0:
                     print(" ",end="")
+                
             print()
         print()
+            
+        
+        
+        
+        
+
+
+
+        
+
+draw_labirinth()
