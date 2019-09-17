@@ -12,10 +12,14 @@ def getch():
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return ch
 
+button_delay = 0.00001
+
+
+
 def draw_game(map):
     
     
-    for lists in the_map:
+    for lists in map:
         for k in lists:
             if k == 2:
                 print("$",end = "")
@@ -34,58 +38,31 @@ def find_player(map):
                 x = line
                 y = map_line
     return x,y
-def check_valid_move(map):
-    x_y = find_player(map)
-    x = x_y[0]
-    y = x_y[1]
-    if map[x][y+1] == 0:
-        return True
-    elif map [x][y-1] == 0:
-        return True
-    elif map[x+1][y] == 0:
-        return True
-    elif map[x-1][y] == 0:
-        return True
-
+def check_valid_move(map, x, y, move):
+    if move == "s":
+        y += 1
+    elif move == "w":
+        y -= 1
+    elif move == "a":
+        x-=1
+    elif move == "d":
+        x+=1
+    return map[x][y] == 0
 
 
 def majd():
-    draw_game()
-
+    (x, y) = find_player(the_map)
+    draw_game(the_map)
     char = getch()
     if char == 'q':
         exit()
-    if check_valid_move():
-        modify_game()
 
-    for lists in range(len(the_map)):
-        for k in range(len(the_map[lists])):
-            if  the_map[lists][k] == 2 and (char == "s"):
-                if the_map[lists+1][k] == 0:
-                    the_map[lists][k] = 0
-                    the_map[lists+1][k]=2
-                print("$",end = "")
-            elif the_map[lists][k] == 2 and (char == "a"):
-                if the_map[lists][k-1] == 0:
-                    the_map[lists][k]=0
-                    the_map[lists][k-1]=2
-                print("$",end = "")
-            elif the_map[lists][k] == 2 and (char == "d"):
-                if the_map[lists][k+1] == 0:
-                    the_map[lists][k]=0
-                    the_map[lists][k+1]=2
-                print("$",end = "")
-            elif the_map[lists][k] == 2 and (char == "w"):
-                if the_map[lists-1][k]== 0:
-                    the_map[lists][k] = 0
-                    the_map[lists-1][k]=2
-
-            elif the_map[lists][k] == 1:
-                print("X",end = "")
-            elif the_map[lists][k] ==0:
-                print(" ",end="")
-        print()
-    print()
+    if char == 's':
+        move = (0, 1)
+    elif char == 'd':
+        move = (1, 0)
+    if check_valid_move(the_map, x, y, char):
+        modify_game(the_map, x, y, char)
         
         
 the_map = [[1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
