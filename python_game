@@ -23,4 +23,43 @@ def draw_labirinth():
         
         
 
-draw_labirinth()
+import sys, termios, tty, os, time
+
+def getch():
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(1)
+
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
+
+button_delay = 0.00001
+
+def draw_labirinth():
+    
+    the_map = [[1,1,1,2,1,1,1,1,1,1],
+               [1,1,0,0,1,1,1,1,1,1],
+               [1,1,0,1,1,1,1,1,1,1],
+               [1,1,0,1,1,1,1,1,1,1],
+               [1,1,0,1,1,1,1,1,1,1],
+               [1,1,0,0,0,0,1,1,1,1],
+               [1,1,1,1,1,0,1,1,1,1],
+               [1,1,1,1,1,0,1,1,1,1],
+               [1,1,1,1,1,0,1,1,1,1],
+               [1,1,1,1,1,0,1,1,1,1]]
+    while True:
+        char = getch()
+        for lists in range(len(the_map)):
+            for k in range(len(the_map[lists])):
+                if  the_map[lists][k] == 2:
+
+                    print("$",end = "")
+                elif the_map[lists][k] == 1:
+                    print("X",end = "")
+                elif the_map[lists][k] ==0:
+                    print(" ",end="")
+            print()
+        print()
