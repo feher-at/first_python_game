@@ -35,10 +35,17 @@ def find_player(map):
                 y = map_line
     return x,y
 def check_valid_move(map):
-    find_player(map)
-    for map_line in range(len(map)):
-        for line in range(len(map[map_line])):
-            pass
+    x_y = find_player(map)
+    x = x_y[0]
+    y = x_y[1]
+    if map[x][y+1] == 0:
+        return True
+    elif map [x][y-1] == 0:
+        return True
+    elif map[x+1][y] == 0:
+        return True
+    elif map[x-1][y] == 0:
+        return True
 
 
 
