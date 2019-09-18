@@ -24,6 +24,8 @@ def draw_game(map):
                 print("X",end = "")
             elif k ==0:
                 print(" ",end="")
+            elif k == 3:
+                print("O",end = "")
         print()
             
 def find_player(map):
@@ -35,6 +37,16 @@ def find_player(map):
                 x = line
                 y = map_line
     return x,y
+def win_coordinate(map):
+    x= 0
+    y= 0
+    for map_line in range(len(map)):
+        for line in range(len(map[map_line])):
+            if map[map_line][line] == 3:
+                x = line
+                y = map_line
+    return x,y
+
 def check_valid_move(map, x, y, move):
     if move == "s":
         y += 1
@@ -44,9 +56,8 @@ def check_valid_move(map, x, y, move):
         x-=1
     elif move == "d":
         x+=1
-    
-    
-    return map[y][x] == 0
+    return map[y][x] == 0 or map[y][x] == 3
+
 def modify_game(map,x,y,char):
     if char == "s":
         map[y][x] = 0
@@ -64,29 +75,23 @@ def modify_game(map,x,y,char):
         map[y][x] = 0
         x+=1
         map[y][x] = 2
-
-
-
-
-
 def labirinth_game():
+    
     while True:
-        (x, y) = find_player(the_map) 
+        
+        (x, y) = find_player(the_map)
+        (wx,wy) = win_coordinate(the_map)
+        
         draw_game(the_map)
         char = getch()
         if char == "q":
             exit()
-        
-        if check_valid_move(the_map, x, y, char):
+        if wx == 0 and wy == 0:
+            print("NYERTÉL")
+            break
+        elif check_valid_move(the_map, x, y, char):
             modify_game(the_map, x, y,char)
-        print(y,x)
             
-    
-        
-        
-        
-
-
 
 the_map = [[1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
           [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
@@ -107,11 +112,7 @@ the_map = [[1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
           [1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1],
           [1,0,0,1,0,0,0,0,0,1,1,1,1,1,1,0,1,0,0,1],
           [1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1],
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1]]
-        
+          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1]]
 
 
-
-        
-
-draw_game()
+labirinth_game()
