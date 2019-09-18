@@ -69,11 +69,11 @@ def modify_game(map,x,y,char):
 
 
 
-def majd():
+def labirinth_game():
     while True:
-        char = getch()
         (x, y) = find_player(the_map) 
         draw_game(the_map)
+        char = getch()
         if char == "q":
             exit()
         
