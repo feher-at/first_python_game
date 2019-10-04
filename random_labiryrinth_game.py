@@ -1,6 +1,6 @@
+import pygame
 import sys, termios, tty, os, time
 
-ask_user = int(input("How big labirynt do you want to draw? :"))
 def getch():
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
@@ -14,9 +14,8 @@ def getch():
 
 button_delay = 0.01
 
-def pseudo_random():
+def pseudo_random(ask_user):
     import random
-    
     map_size = ask_user
     map = []
     first_random_list = [1,0]
@@ -76,9 +75,9 @@ def search(x, y,grid):
         or (y < len(grid)-1 and search(x, y+1,grid))):
         return True
     return False
-def starting_player():
+def starting_player(ask_user):
     while True:
-        grid = pseudo_random()
+        grid = pseudo_random(ask_user)
         fy = 0
         fx = grid[0].index(0)
 
@@ -93,7 +92,7 @@ def draw_game(map):
     for lists in map:
         for k in lists:
             if k == 2:
-                print("Ü",end = "")
+                print("©",end = "")
             elif k == 1:
                 print("█",end = "")
             elif k ==0:
@@ -153,25 +152,37 @@ def modify_game(map,x,y,char):
         x+=1
         map[y][x] = 4
 def labirinth_game():
-    grid = starting_player()
-    
+    ask_user = int(input("How big labirynt do you want to draw? :"))
+    grid = starting_player(ask_user)
+    step = "labirinth_song.mp3"
+    pygame.mixer.init()
+    pygame.mixer.music.load(step)
+    pygame.mixer.music.play(-1)
+    (wx,wy) = win_coordinate(grid)
     while True:
         
         (x, y) = find_player(grid)
-        (wx,wy) = win_coordinate(grid)
+        
         os.system("clear")
         draw_game(grid)
         char = getch()
         if char == "q":
             exit()
-        if wx == 0 and wy == 0:
+        if wx == x and wy == y:
             print("You won")
             break
         elif check_valid_move(grid, x, y, char):
             modify_game(grid, x, y,char)
             
 
+def game_again():
+    new_game = True
+    while new_game:
+        labirinth_game()
+        game_again = input("Do you want new game? ")
+        if game_again == "yes":
+            continue
+        elif game_again == "no":
+            new_game = False
 
-
-
-labirinth_game()
+game_again()
