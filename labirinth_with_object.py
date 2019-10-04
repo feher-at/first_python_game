@@ -1,6 +1,7 @@
 import sys, termios, tty, os, time
 from maze_maps import maps
 import random
+import pygame
 
 
 def getch():
@@ -16,13 +17,13 @@ def getch():
 
 button_delay = 0.01
 
-QUESTIONS = [["Minek megy a vak az erdőbe","Fának"],
-             ["Hogy hívják a legmelegebb hálózatot","Katlan"],
-             ["Hol terem a CD ROM","Diszkréten"],
-             ["Mit mond az orosz pap a halálos ágyán","Szentpétervár"],
-             ["Mi lesz ha elütnek egy matematikust","Már nem számít"],
-             ["Mi a női programozók rémálma","Végtelen ciklus"],
-             ["Hogy hívják a templomok közötti hálózatot","Paplan"]]
+QUESTIONS = [["Minek megy a vak az erdőbe","fának"],
+             ["Hogy hívják a legmelegebb hálózatot","katlan"],
+             ["Hol terem a CD ROM","diszkréten"],
+             ["Mit mond az orosz pap a halálos ágyán","szentpétervár"],
+             ["Mi lesz ha elütnek egy matematikust","már nem számít"],
+             ["Mi a női programozók rémálma","végtelen ciklus"],
+             ["Hogy hívják a templomok közötti hálózatot","paplan"]]
 
 def draw_game(map):
     
@@ -107,12 +108,23 @@ def modify_game(map,x,y,char):
         map[y][x] = 0
         x+=1
         map[y][x] = 2
+def music():
+    step = "labirinth_song.mp3"
+    pygame.mixer.init()
+    pygame.mixer.music.load(step)
+    pygame.mixer.music.play()
 def labirinth_game():
+    step = "labirinth_song.mp3"
+    pygame.mixer.init()
+    pygame.mixer.music.load(step)
+    pygame.mixer.music.play(-1)
+    
+    
     for the_map in maps():
         questions_coordinates = questions(the_map)
         (wx,wy) = win_coordinate(the_map)
 
-        while True:            
+        while True: 
             [x, y] = find_player(the_map)
             objectums_number = objectums(the_map)
             os.system("clear")
@@ -122,9 +134,9 @@ def labirinth_game():
                 while True:
                     question = input(the_question[0] + "?  ")
                     if question != the_question[1]:
-                        print("Helytelen")
+                        print("False!")
                     else:
-                        print("Helyes!")
+                        print("True!")
                         QUESTIONS.remove(the_question)
                         break
                 questions_coordinates.pop(questions_coordinates.index([y,x]))
@@ -140,8 +152,6 @@ def labirinth_game():
             
             elif check_valid_move(the_map, x, y, char):
                 modify_game(the_map, x, y,char)
-        
-
 
 
 
